@@ -5,21 +5,20 @@
       <h1 style="color: #fff" class="title">{{ item.title }}</h1>
       <p>{{ item.descr }}</p>
       <br />
-      <div class="card-stats">
-        <div v-for="(stat, index) in item.info" :key="index" class="one-third">
-          <div class="stat-value">{{ stat.value }}</div>
-          <div class="stat">{{ stat.title }}</div>
-        </div>
-      </div>
+      <CardStats :item="item" />
       <br />
       <router-link to="/" class="btn btnPrimary">back</router-link>
     </div>
   </div>
 </template>
 <script>
+import CardStats from '@/components/UI/CardStats'
 import items from '@/seeders/items'
 
 export default {
+  components: {
+    CardStats
+  },
   data() {
     return {
       item: null
@@ -29,7 +28,8 @@ export default {
     const alias = this.$route.params.itemAlias
     const item = items.find(el => el.alias === alias)
     console.log(item)
-    this.item = item
+    if (item) this.item = item
+    else this.$router.push('/404')
   }
 }
 </script>
